@@ -13,7 +13,7 @@
 from easygoogletranslate import EasyGoogleTranslate
 
 translator = EasyGoogleTranslate()
-result = translator.translate('प्रभादेवीतील त्या राड्याची धास्ती, गणपती विसर्जनाला स्वागत मंडप नको, राजकीय पक्षांना पोलिसांची मनाई', target_language='en')
+result = translator.translate('ऑलटाइम हाई पर पहुंचा शेयर बाजार: सेंसेक्स ने 67,774 का स्तर छुआ, निफ्टी भी 20,173 तक पहुंचा; आज से यात्रा का IPO खुला', target_language='en')
 
 print(result)
 # Output: Bu bir örnektir.
