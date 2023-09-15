@@ -5,7 +5,7 @@ pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tessera
 # read image
 
 
-img = cv2.imread('sample2.png')
+img = cv2.imread('sample.png')
 
 # set configurations
 config = ('-l eng --oem 1 --psm 3')
