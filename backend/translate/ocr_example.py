@@ -42,7 +42,7 @@ def image_to_text(url):
         # Cropping the text block  
         cropped_img = img[y:y + h, x:x + w]
         # Applying tesseract OCR on the cropped image 
-        text = pytesseract.image_to_string(cropped_img) 
+        text = pytesseract.image_to_string(cropped_img, lang ="hin") 
         # updating the text
         img_to_text+=text
     print(img_to_text)
