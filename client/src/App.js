@@ -15,6 +15,10 @@ import Home from './Pages/Home';
 import HostLayout from './Components/HostLayout';
 import Login from './Pages/Login';
 import NotFound from './Pages/NotFound';
+import NewsDetails from './Pages/NewsDetails';
+import LiveNews from './Pages/LiveNews';
+import SearchPg from './Pages/SearchPg';
+
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path="/" element={<Layout />}>
@@ -23,20 +27,19 @@ const router = createBrowserRouter(createRoutesFromElements(
       path="host" 
       element={<HostLayout />} 
     />
-    {/* <Route 
+    <Route 
       path="livenews" 
       element={<LiveNews />} 
     />
     <Route
-      path="search"
-      element={<Search />}
-      errorElement={<Error />}
-      loader={vansLoader}
-    /> */}
+      path='search'
+      element={<SearchPg />}
+    />
     <Route
       path="login"
       element={<Login />}
     />
+    <Route path=':id' element={<NewsDetails/>}/>
     <Route path="*" element={<NotFound />} />
   </Route>
 ))
