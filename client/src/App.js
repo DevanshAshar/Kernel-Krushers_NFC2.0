@@ -13,10 +13,13 @@ import {
 import Layout from './Components/Layout';
 import Home from './Pages/Home';
 import HostLayout from './Components/HostLayout';
-import LiveNews from "./Pages/LiveNews";
 import CheckNews from './Pages/CheckNews';
 import Login from './Pages/Login';
 import NotFound from './Pages/NotFound';
+import NewsDetails from './Pages/NewsDetails';
+import LiveNews from './Pages/LiveNews';
+import SearchPg from './Pages/SearchPg';
+
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path="/" element={<Layout />}>
@@ -40,9 +43,14 @@ const router = createBrowserRouter(createRoutesFromElements(
       element={<CheckNews />} 
     />
     <Route
+      path='search'
+      element={<SearchPg />}
+    />
+    <Route
       path="login"
       element={<Login />}
     />
+    <Route path=':id' element={<NewsDetails/>}/>
     <Route path="*" element={<NotFound />} />
   </Route>
 ))

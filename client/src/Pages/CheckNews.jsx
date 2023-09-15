@@ -1,10 +1,12 @@
 import axios from "axios";
 import React, { useState } from "react";
-import axios from 'axios'
 import toast from "react-hot-toast";
+import languagesData from "../Components/ImagLang";
 
 export default function CheckNews() {
-  const [loginFormData, setLoginFormData] = useState({ email: "", password: "" });
+  const [languages, setLanguages] = useState(languagesData);
+  const [selectedLanguage, setSelectedLanguage] = useState("eng");
+  console.log(selectedLanguage);
   const [image, setImage] = useState(null);
   const [description, setDescription] = useState("");
   const [link, setLink] = useState("");
@@ -14,7 +16,8 @@ export default function CheckNews() {
     console.log('img')
     const newsData = new FormData();
     newsData.append("img", image);
-    const response = await axios.post('http://127.0.0.1:8000/news/img/',newsData)
+    newsData.append("lang",selectedLanguage)
+    const response = await axios.post(`${process.env.REACT_APP_API}/news/img/`,newsData)
     console.log(newsData);
   }
 
@@ -43,9 +46,20 @@ export default function CheckNews() {
     }
   }
 
+  const languageOptionElements = languages.map((object, index) => {
+    return (
+        <option key={index} value={object.value}>{object.name}</option>
+    );
+  });
+
+  function handleLanguageChange(event)
+  {
+    setSelectedLanguage(event.target.value);
+  }
+
   return (
     <div className="news-check-container">
-      <h2>Upload your news article here to get a check on whether it is authentic.</h2>
+      <h2>Upload your news article here to get a check on it's authenticity.</h2>
       <div className="d-flex">
         <form onSubmit={handleSubmit} className="login-form">
           <div className="mb-3">
@@ -59,6 +73,9 @@ export default function CheckNews() {
                 hidden
               />
             </label>
+            <select id="language-dropdown" value={selectedLanguage} onChange={handleLanguageChange} onClick={(event) => {event.stopPropagation()}}>
+                {languageOptionElements}
+            </select>
           </div>
           <button>Submit</button>
         </form>

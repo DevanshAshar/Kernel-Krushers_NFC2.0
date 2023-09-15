@@ -61,4 +61,4 @@ const languagesData = [
     }
 ];
 
-export const Languages = languagesData;
+export default languagesData;

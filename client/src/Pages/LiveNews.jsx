@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Checkbox, Radio } from "antd";
+import { Link } from "react-router-dom";
+import { Checkbox, Radio,Modal } from "antd";
 import { Categories } from "../Components/Categories";
 import { Languages } from "../Components/Languages";
 import toast from "react-hot-toast";
@@ -9,40 +10,45 @@ const LiveNews = () => {
   const [check, setCheck] = useState("");
   const [radio, setRadio] = useState("");
   const [news, setNews] = useState([]);
-
+  const [selectedCard, setSelectedCard] = useState(null);
   const getNews = async (check, radio) => {
     try {
       console.log("here");
       if (!check && !radio) {
         const res = await axios.get(
-          `https://newsdata.io/api/1/news?apikey=pub_29480f0423d4e184e38a569ab68d36a56fc19&language=en&country=in`
+          `https://newsdata.io/api/1/news?apikey=${process.env.REACT_APP_NEWS_API_KEY}&language=en&country=in`
         );
         setNews(res.data.results);
       } else if (check && !radio) {
         console.log(check);
         const res = await axios.get(
-          `https://newsdata.io/api/1/news?apikey=pub_29480f0423d4e184e38a569ab68d36a56fc19&language=en&category=${check}&country=in`
+          `https://newsdata.io/api/1/news?apikey=${process.env.REACT_APP_NEWS_API_KEY}&language=en&category=${check}&country=in`
         );
         setNews(res.data.results);
       } else if (!check && radio) {
         console.log(radio);
         const res = await axios.get(
-          `https://newsdata.io/api/1/news?apikey=pub_29480f0423d4e184e38a569ab68d36a56fc19&language=${radio}&country=in`
+          `https://newsdata.io/api/1/news?apikey=${process.env.REACT_APP_NEWS_API_KEY}&language=${radio}&country=in`
         );
         setNews(res.data.results);
       } else {
         console.log(radio, check);
         const res = await axios.get(
-          `https://newsdata.io/api/1/news?apikey=pub_29480f0423d4e184e38a569ab68d36a56fc19&language=${radio}&category=${check}&country=in`
+          `https://newsdata.io/api/1/news?apikey=${process.env.REACT_APP_NEWS_API_KEY}&language=${radio}&category=${check}&country=in`
         );
         setNews(res.data.results);
       }
-      
     } catch (error) {
       toast.error("Something went wrong");
       console.log(error.message);
     }
   };
+  const handleCardClick = (card) => {
+    setSelectedCard(card);
+  };
+  const handleCloseEnlargedView = () => {
+    setSelectedCard(null);
+  }
   useEffect(() => {
     getNews(check, radio);
   }, [check, radio]);
@@ -86,26 +92,28 @@ const LiveNews = () => {
             <div className="flex-wrap" style={{ display: "flex" }}>
               {news && news.length > 0 ? (
                 news?.map((n) => (
-                  <div
-                    className="card m-2"
-                    style={{ width: "18rem", border: "0.5px solid orange"  }}
-                    key={n.article_id}
-                  >
-                    <img
-                      src={n.image_url}
-                      className="card-img-top"
-                      alt={null}
-                    />
-                    <div className="card-body">
-                      <h5 className="card-title">{n.title}</h5>
-                      <p className="card-text">
-                        {n.description
-                          ? n.description.substring(0, 30)
-                          : "Description not available"}
-                        ...
-                      </p>
+                  <Link onClick={() => handleCardClick(n)}>
+                    <div
+                      className="card m-2"
+                      style={{ width: "18rem", border: "0.5px solid orange" }}
+                      key={n.article_id}
+                    >
+                      <img
+                        src={n.image_url}
+                        className="card-img-top"
+                        alt={null}
+                      />
+                      <div className="card-body">
+                        <h5 className="card-title">{n.title}</h5>
+                        <p className="card-text">
+                          {n.description
+                            ? n.description.substring(0, 30)
+                            : "Description not available"}
+                          ...
+                        </p>
+                      </div>
                     </div>
-                  </div>
+                  </Link>
                 ))
               ) : (
                 <p>No news here</p>
@@ -114,6 +122,31 @@ const LiveNews = () => {
           </div>
         </div>
       </div>
+      <Modal
+        visible={selectedCard !== null}
+        onCancel={handleCloseEnlargedView}
+        footer={null}
+        centered
+      >
+        {selectedCard && (
+          <>
+            <img
+              src={selectedCard.image_url}
+              alt={null}
+              style={{ maxWidth: "100%" }}
+            />
+            <h5>{selectedCard.title}</h5>
+            <p>
+              {selectedCard.description
+                ? selectedCard.description
+                : "Description not available"}
+            </p>
+            <p>
+                {selectedCard.content}
+            </p>
+          </>
+        )}
+      </Modal>
     </>
   );
 };
