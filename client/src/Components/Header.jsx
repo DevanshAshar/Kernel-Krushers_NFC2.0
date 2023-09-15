@@ -32,6 +32,12 @@ export default function Header() {
                 >
                     Search
                 </NavLink>
+                <NavLink 
+                    to="checknews"
+                    style={({isActive}) => isActive ? activeStyles : null}
+                >
+                    Check News
+                </NavLink>
                 <Link to="login" className="login-link">
                     <img 
                         src={imageUrl} 
