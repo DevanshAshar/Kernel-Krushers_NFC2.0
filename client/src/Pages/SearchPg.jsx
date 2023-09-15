@@ -1,12 +1,12 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
-
+import { Modal } from "antd";
 export default function SearchPg() {
   const [searchPhrase, setSearchPhrase] = React.useState("");
   const [news, setNews] = React.useState([]);
-
+  const [selectedCard, setSelectedCard] = useState(null);
   async function handleSubmit(e) {
     try {
         e.preventDefault();
@@ -27,7 +27,12 @@ export default function SearchPg() {
         toast.error('Something went wrong')
     }
   }
-
+  const handleCardClick = (card) => {
+    setSelectedCard(card);
+  };
+  const handleCloseEnlargedView = () => {
+    setSelectedCard(null);
+  }
   function handleChange(event) {
     setSearchPhrase(event.target.value);
   }
@@ -46,7 +51,7 @@ export default function SearchPg() {
             <div className="flex-wrap" style={{ display: "flex",alignItems:'center',justifyContent:'center' }}>
               {news && news.length > 0 ? (
                 news?.map((n) => (
-                  <Link to = {`/${n.article_id}`}>
+                  <Link onClick={() => handleCardClick(n)}>
                     <div
                       className="card m-2"
                       style={{ width: "18rem", border: "0.5px solid orange" }}
@@ -74,6 +79,31 @@ export default function SearchPg() {
               )}
             </div>
           </div>
+          <Modal
+        visible={selectedCard !== null}
+        onCancel={handleCloseEnlargedView}
+        footer={null}
+        centered
+      >
+        {selectedCard && (
+          <>
+            <img
+              src={selectedCard.image_url}
+              alt={null}
+              style={{ maxWidth: "100%" }}
+            />
+            <h5>{selectedCard.title}</h5>
+            <p>
+              {selectedCard.description
+                ? selectedCard.description
+                : "Description not available"}
+            </p>
+            <p>
+                {selectedCard.content}
+            </p>
+          </>
+        )}
+      </Modal>
     </div>
   );
 }

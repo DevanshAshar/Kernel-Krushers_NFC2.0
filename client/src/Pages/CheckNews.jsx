@@ -2,10 +2,13 @@ import axios from "axios";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import languagesData from "../Components/ImagLang";
+import PieChart from "../Components/PieChart";
 
 export default function CheckNews() {
   const [languages, setLanguages] = useState(languagesData);
   const [selectedLanguage, setSelectedLanguage] = useState("eng");
+  const [labels,setLabels]=useState()
+  const [percentages,setPercentages]=useState([])
   console.log(selectedLanguage);
   const [image, setImage] = useState(null);
   const [description, setDescription] = useState("");
@@ -13,11 +16,16 @@ export default function CheckNews() {
 
   const handleSubmit = async(e) =>{
     e.preventDefault();
-    console.log('img')
     const newsData = new FormData();
-    newsData.append("img", image);
-    newsData.append("lang",selectedLanguage)
-    const response = await axios.post(`${process.env.REACT_APP_API}/news/img/`,newsData)
+    try {      
+      newsData.append("img", image);
+      newsData.append("lang",selectedLanguage)
+      const response = await axios.post(`${process.env.REACT_APP_API}/news/img/`,newsData)
+      console.log(response.data)
+    } catch (error) {
+      toast.error('Something went wrong')
+      console.log(error.message)
+    }
     console.log(newsData);
   }
 
@@ -40,6 +48,7 @@ export default function CheckNews() {
     try {
       console.log('link')
       const res = await axios.post(`${process.env.REACT_APP_API}/news/link`, { news: link })
+      console.log(res.data)
     } catch (error) {
       console.log(error.message)
       toast.error('Something went wrong')
@@ -61,6 +70,7 @@ export default function CheckNews() {
     <div className="news-check-container">
       <h2>Upload your news article here to get a check on it's authenticity.</h2>
       <div className="d-flex">
+        
         <form onSubmit={handleSubmit} className="login-form">
           <div className="mb-3">
             <label className="btn btn-outline-secondary col-md-12">
@@ -106,6 +116,7 @@ export default function CheckNews() {
           <button onClick={handleLink}>Submit</button>
         </div>
       </div>
+      <PieChart labels={labels} percentages={percentages} />
     </div>
   );
 }

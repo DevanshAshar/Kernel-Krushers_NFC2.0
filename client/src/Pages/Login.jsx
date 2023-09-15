@@ -1,10 +1,12 @@
+import axios from "axios"
 import React from "react"
 
 export default function Login() {
     const [loginFormData, setLoginFormData] = React.useState({ email: "", password: "" })
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault()
+        //const res=await axios.post(`${process.env.REACT_APP_API}/auth/token/login/`,{username:username,password:password}, { withCredentials: true })
         console.log(loginFormData)
     }
 
