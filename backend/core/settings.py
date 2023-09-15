@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #created app
     'news',
+    #installed libraies
+    'corsheaders',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

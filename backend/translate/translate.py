@@ -12,8 +12,10 @@
 
 from easygoogletranslate import EasyGoogleTranslate
 
-translator = EasyGoogleTranslate()
-result = translator.translate('ऑलटाइम हाई पर पहुंचा शेयर बाजार: सेंसेक्स ने 67,774 का स्तर छुआ, निफ्टी भी 20,173 तक पहुंचा; आज से यात्रा का IPO खुला', target_language='en')
+def google_translate(text):
+    translator = EasyGoogleTranslate()
+    result = translator.translate(text, target_language='en')
 
-print(result)
+    return result
+print(google_translate('ऑलटाइम हाई पर पहुंचा शेयर बाजार: सेंसेक्स ने 67,774 का स्तर छुआ, निफ्टी भी 20,173 तक पहुंचा; आज से यात्रा का IPO खुला'))
 # Output: Bu bir örnektir.
