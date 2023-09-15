@@ -21,7 +21,7 @@ def sentiment_analysis(text):
     # Print the predictions for the new input data
     print("New Predictions:", new_predictions)
     for i,n in enumerate(new_predictions['labels']):
-        json[n] = new_predictions['scores'][i]
+        json[n] = new_predictions['scores'][i]*100
     return json
 
 print(sentiment_analysis(text))
