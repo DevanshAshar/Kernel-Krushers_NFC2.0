@@ -23,8 +23,8 @@ class newsImgSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         print(validated_data['img'])
         instance = super().create(validated_data)
-        validated_data['news'] = image_to_text("http://127.0.0.1:8000/media/"+str(instance.img))
-        instance.news = validated_data['news']
+        text = image_to_text("http://127.0.0.1:8000/media/"+str(instance.img),'hin')
+        instance.news = google_translate(text)
         instance.save()
         return instance
     
