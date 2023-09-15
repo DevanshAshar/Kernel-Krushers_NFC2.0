@@ -11,6 +11,7 @@ with open('ML\pickle\predictions.pkl', 'rb') as f:
 text = "Poll pact need of hour to defeat YSRC: Jana Sena on alliance with TDP"
 def sentiment_analysis(text):
     json = {}
+    l = []
     # Define your new input data
     text_piece = text
     labels = ["Positive", "Negative", "Neutral"]
@@ -22,6 +23,8 @@ def sentiment_analysis(text):
     print("New Predictions:", new_predictions)
     for i,n in enumerate(new_predictions['labels']):
         json[n] = new_predictions['scores'][i]*100
-    return json
+        
+    max_key = max(json, key=lambda k: json[k])
+    return json, max_key
 
 print(sentiment_analysis(text))
