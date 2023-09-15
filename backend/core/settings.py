@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #created app
     'news',
+    'user',
     #installed libraies
     'corsheaders',
     'rest_framework',
@@ -77,6 +78,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
+AUTH_USER_MODEL = 'user.User'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
