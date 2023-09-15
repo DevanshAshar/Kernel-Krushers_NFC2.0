@@ -13,7 +13,6 @@ import {
 import Layout from './Components/Layout';
 import Home from './Pages/Home';
 import HostLayout from './Components/HostLayout';
-import LiveNews from "./Pages/LiveNews";
 import CheckNews from './Pages/CheckNews';
 import Login from './Pages/Login';
 import NotFound from './Pages/NotFound';
