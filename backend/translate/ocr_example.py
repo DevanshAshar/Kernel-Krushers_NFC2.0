@@ -1,11 +1,18 @@
 # import modules
 import cv2
 import pytesseract
+import requests
+import numpy as np
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract'
 # read image
 
 
-img = cv2.imread('sample.png')
+url = 'http://127.0.0.1:8000/media/news/sample.png'
+
+# Download the image using requests
+response = requests.get(url)
+img_array = np.asarray(bytearray(response.content), dtype=np.uint8)
+img = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
 
 # set configurations
 config = ('-l eng --oem 1 --psm 3')
