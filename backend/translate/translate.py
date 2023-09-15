@@ -17,5 +17,5 @@ def google_translate(text):
     result = translator.translate(text, target_language='en')
 
     return result
-print(google_translate('ऑलटाइम हाई पर पहुंचा शेयर बाजार: सेंसेक्स ने 67,774 का स्तर छुआ, निफ्टी भी 20,173 तक पहुंचा; आज से यात्रा का IPO खुला'))
+# print(google_translate('ऑलटाइम हाई पर पहुंचा शेयर बाजार: सेंसेक्स ने 67,774 का स्तर छुआ, निफ्टी भी 20,173 तक पहुंचा; आज से यात्रा का IPO खुला'))
 # Output: Bu bir örnektir.

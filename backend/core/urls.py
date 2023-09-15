@@ -8,6 +8,5 @@ urlpatterns = [
     path('news/',include("news.urls")),
 ]
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,
+urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)
