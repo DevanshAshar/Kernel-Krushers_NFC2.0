@@ -7,13 +7,22 @@ import PieChart from "../Components/PieChart";
 export default function CheckNews() {
   const [languages, setLanguages] = useState(languagesData);
   const [selectedLanguage, setSelectedLanguage] = useState("eng");
+  const [category,setCategory]=useState()
   const [labels,setLabels]=useState()
   const [percentages,setPercentages]=useState([])
   console.log(selectedLanguage);
   const [image, setImage] = useState(null);
   const [description, setDescription] = useState("");
   const [link, setLink] = useState("");
-
+  const[fake,setFake]=useState(true)
+  const[sentiment,setSentiment]=useState({})
+  const handlePieChartData = (sentimentData) => {
+    // Extract labels and percentages from sentimentData
+    const sentimentLabels = Object.keys(sentimentData);
+    const sentimentPercentages = Object.values(sentimentData);
+    setLabels(sentimentLabels);
+    setPercentages(sentimentPercentages);
+  };
   const handleSubmit = async(e) =>{
     e.preventDefault();
     const newsData = new FormData();
@@ -21,7 +30,13 @@ export default function CheckNews() {
       newsData.append("img", image);
       newsData.append("lang",selectedLanguage)
       const response = await axios.post(`${process.env.REACT_APP_API}/news/img/`,newsData)
-      console.log(response.data)
+      console.log(response.data.sentiment)
+      setSentiment(JSON.parse(response.data.sentiment.replace(/'/g, '"')))
+      if(response.data.fake==="real")
+      setFake(false)
+      setCategory(response.data.category)
+      console.log(sentiment)
+      handlePieChartData(sentiment);
     } catch (error) {
       toast.error('Something went wrong')
       console.log(error.message)
@@ -38,6 +53,12 @@ export default function CheckNews() {
     try {
       console.log('text')
       const res = await axios.post(`${process.env.REACT_APP_API}/news/text/`, { news: description })
+      console.log(res.data.sentiment)
+      setSentiment(JSON.parse(res.data.sentiment.replace(/'/g, '"')))
+      if(res.data.fake==="real")
+      setFake(false)
+      setCategory(res.data.category)
+      handlePieChartData(sentiment);
     } catch (error) {
       console.log(error.message)
       toast.error('Something went wrong')
@@ -48,7 +69,11 @@ export default function CheckNews() {
     try {
       console.log('link')
       const res = await axios.post(`${process.env.REACT_APP_API}/news/link`, { news: link })
-      console.log(res.data)
+      setSentiment(JSON.parse(res.data.sentiment.replace(/'/g, '"')))
+      if(res.data.fake==="real")
+      setFake(false)
+      setCategory(res.data.category)
+      handlePieChartData(sentiment);
     } catch (error) {
       console.log(error.message)
       toast.error('Something went wrong')
@@ -65,7 +90,7 @@ export default function CheckNews() {
   {
     setSelectedLanguage(event.target.value);
   }
-
+  
   return (
     <div className="news-check-container">
       <h2>Upload your news article here to get a check on it's authenticity.</h2>
@@ -116,7 +141,15 @@ export default function CheckNews() {
           <button onClick={handleLink}>Submit</button>
         </div>
       </div>
-      <PieChart labels={labels} percentages={percentages} />
+      <div style={{ width: '400px', height: '400px' }}>
+        <PieChart labels={labels} percentages={percentages} />
+      </div>
+      <div>
+        <strong>Category:</strong> {category}
+      </div>
+      <div>
+        <strong>Authenticity:</strong> {fake ? 'Fake' : 'Real'}
+      </div>
     </div>
   );
 }
