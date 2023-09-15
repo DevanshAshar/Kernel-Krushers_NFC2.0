@@ -3,15 +3,24 @@ from news.ocr_example import image_to_text
 from news.translate import google_translate
 from .models import news_text, news_img
 from ML.pickle.categorize import predict_category
+
+
 class newsTextSerializer(serializers.ModelSerializer):
     class Meta:
         model = news_text
-        fields = "__all__"
+        fields = "__allgo__"
         
     def create(self, validated_data):
         text = validated_data['news']
         validated_data['news'] = google_translate(text)
         return super().create(validated_data)
+    
+    def to_representation(self, instance):
+        print(instance.news,'instance')
+        predict = predict_category(instance.news)
+        print(predict)
+        instance.category = predict
+        return super().to_representation(instance)
         
 class newsImgSerializer(serializers.ModelSerializer):
     class Meta:
@@ -30,5 +39,7 @@ class newsImgSerializer(serializers.ModelSerializer):
     
     def to_representation(self, instance):
         print(instance.news,'instance')
-        
+        predict = predict_category(instance.news)
+        print(predict)
+        instance.category = predict
         return super().to_representation(instance)

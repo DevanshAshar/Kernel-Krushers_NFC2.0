@@ -1,7 +1,7 @@
 import pickle
 
 # Load the pickled objects from the model.pkl file
-with open('categorization.pkl', 'rb') as model_file:
+with open('ML\pickle\categorization.pkl', 'rb') as model_file:
     multinob, vecto, label = pickle.load(model_file)
 
 # Define a function to make predictions
@@ -17,7 +17,7 @@ def predict_category(input_text):
 
     return predicted_label[0]
 
-# Example usage
-user_input = input("Enter description: ")
-prediction = predict_category(user_input)
-print("Predicted category:", prediction)
+# # Example usage
+# user_input = input("Enter description: ")
+# prediction = predict_category(user_input)
+# print("Predicted category:", prediction)
