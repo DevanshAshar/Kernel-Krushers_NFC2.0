@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from news.ocr_example import image_to_text
-from news.translate import google_translate
+from ML.translate.ocr_example import image_to_text
+from ML.translate.translate import google_translate
 from .models import news_text, news_img
 from ML.pickle.categorize import predict_category
 
@@ -8,7 +8,7 @@ from ML.pickle.categorize import predict_category
 class newsTextSerializer(serializers.ModelSerializer):
     class Meta:
         model = news_text
-        fields = "__allgo__"
+        fields = "__all__"
         
     def create(self, validated_data):
         text = validated_data['news']
