@@ -28,3 +28,6 @@ class newsImgSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
     
+    def to_representation(self, instance):
+        print(instance)
+        return super().to_representation(instance)
