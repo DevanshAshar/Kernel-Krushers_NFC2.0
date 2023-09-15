@@ -20,7 +20,9 @@ class NewsImgAPI(GenericAPIView, CreateModelMixin, ListModelMixin):
     serializer_class = newsImgSerializer
     
     def post(self, request, *args, **kwargs):
-        return super().create(request, *args, **kwargs)
+        # print(request.data['lang'])
+        return super().create(request,context={request.data['lang']}, *args, **kwargs)
     
     def get(self, request, *args, **kwargs):
+        
         return super().list(request, *args, **kwargs)
