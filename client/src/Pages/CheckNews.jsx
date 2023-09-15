@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import axios from 'axios'
 import toast from "react-hot-toast";
 
 export default function CheckNews() {
@@ -8,11 +9,12 @@ export default function CheckNews() {
   const [description, setDescription] = useState("");
   const [link, setLink] = useState("");
 
-  function handleSubmit(e) {
+  const handleSubmit = async(e) =>{
     e.preventDefault();
     console.log('img')
     const newsData = new FormData();
-    newsData.append("image", image);
+    newsData.append("img", image);
+    const response = await axios.post('http://127.0.0.1:8000/news/img/',newsData)
     console.log(newsData);
   }
 
