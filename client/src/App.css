@@ -171,6 +171,12 @@ footer {
     font-family: "Inter", sans-serif;
 }
 
+.warning
+{
+    color: red;
+    margin: 15px;
+}
+
 /**CheckNews Page**/
 
 .d-flex
