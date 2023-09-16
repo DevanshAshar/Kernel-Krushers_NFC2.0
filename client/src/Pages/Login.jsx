@@ -41,6 +41,7 @@ export default function Login() {
     return (
         <div className="login-container">
             <h1>Sign in to your account</h1>
+            {warning ? <h4 className="warning">{warning}</h4> : null}
             <form onSubmit={handleSubmit} className="login-form">
                 <input
                     name="username"
