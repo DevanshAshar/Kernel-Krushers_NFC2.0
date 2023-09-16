@@ -4,6 +4,7 @@ from ML.translate.translate import google_translate
 from ML.pickle.sentiment import sentiment_analysis
 from ML.pickle.fakenews import fake_detect
 from ML.pickle.categorize import predict_category
+from ML.model.summarization import summaryy
 from .email import gov_send_email
 from .models import news_text, news_img
 
@@ -16,11 +17,16 @@ class newsTextSerializer(serializers.ModelSerializer):
         
     def create(self, validated_data):
         text = validated_data['news']
-        validated_data['news'] = google_translate(text)
+        text = google_translate(text)
+        if len(text) >=255:
+            validated_data['news'] = summaryy(text)
+        else:
+            validated_data['news'] = text   
         validated_data['category'] = predict_category(validated_data['news'])
         validated_data['sentiment'], max_m = sentiment_analysis(validated_data['news'])
         print(fake_detect(validated_data['news']))
         validated_data['fake'] = fake_detect(validated_data['news'])
+        
         if max_m == 'Positive':
             gov_send_email(
                 'scarlettwitch031@gmail.com',
@@ -31,11 +37,6 @@ class newsTextSerializer(serializers.ModelSerializer):
                 )
         return super().create(validated_data)
     
-    # def to_representation(self, instance):
-    #     print(instance.news,'instance')
-    #     predict = predict_category(instance.news)
-    #     print(predict)
-    #     return super().to_representation(instance)
         
 class newsImgSerializer(serializers.ModelSerializer):
     class Meta:
@@ -48,7 +49,11 @@ class newsImgSerializer(serializers.ModelSerializer):
         # print(data['lang'], 'data 12345')
         instance = super().create(validated_data)
         text = image_to_text("http://127.0.0.1:8000/media/"+str(instance.img),data['lang'])
-        instance.news = google_translate(text)
+        text = google_translate(text)
+        if len(text) >=255:
+            instance.news = summaryy(text)
+        else:
+            instance.news = text    
         instance.category = predict_category(instance.news)
         instance.sentiment, max_m = sentiment_analysis(instance.news)
         instance.fake = fake_detect(instance.news)
@@ -63,9 +68,3 @@ class newsImgSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
     
-    # def to_representation(self, instance):
-    #     print(instance.news,'instance')
-    #     predict = predict_category(instance.news)
-    #     print(predict)
-    #     instance.category = predict
-    #     return super().to_representation(instance)
