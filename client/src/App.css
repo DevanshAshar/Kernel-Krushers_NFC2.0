@@ -242,3 +242,41 @@ option:hover
     background-color: beige;
     border-radius: 3px;
 }
+
+/**Home Page**/
+
+.background-container {
+    position: relative; /* Create a positioning context */
+    width: 100%; /* Set the container width as needed */
+    height: 400px; /* Set the container height as needed */
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://venturebeat.com/wp-content/uploads/2018/10/fake_news.shutterstock_559003162-e1582064474697.jpg?w=1200&strip=all');
+    background-size: cover;
+}
+
+.background-container > *
+{
+    position: absolute;
+    z-index: 2;
+    color: rgb(235, 155, 155);
+}
+
+.background-container > h1
+{
+    text-align: center;
+    margin: 60px 10px 10px 10px;
+    font-weight: 700;
+}
+
+h1 > span
+{
+    text-decoration: line-through;
+}
+
+.fake-news-info
+{
+    margin: 20px;
+    text-align: center;
+    text-shadow: 1px 1px 1px #161616;
+    /* font-size: 19px; */
+    color: #FF8C38;
+}

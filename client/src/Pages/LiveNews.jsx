@@ -92,11 +92,10 @@ const LiveNews = () => {
             <div className="flex-wrap" style={{ display: "flex" }}>
               {news && news.length > 0 ? (
                 news?.map((n) => (
-                  <Link onClick={() => handleCardClick(n)}>
+                  <Link key={n.article_id} onClick={() => handleCardClick(n)}>
                     <div
                       className="card m-2"
                       style={{ width: "18rem", border: "0.5px solid orange" }}
-                      key={n.article_id}
                     >
                       <img
                         src={n.image_url}
