@@ -171,6 +171,12 @@ footer {
     font-family: "Inter", sans-serif;
 }
 
+.warning
+{
+    color: red;
+    margin: 15px;
+}
+
 /**CheckNews Page**/
 
 .d-flex
@@ -243,6 +249,47 @@ option:hover
     border-radius: 3px;
 }
 
+.data-and-images-container
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* width: 70vw; */
+    /* background-color: #FF8C38; */
+}
+
+.text-container
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 70vw;
+    margin: 30px;
+}
+
+.images-container
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 70vw;
+    margin: 30px;
+}
+
+.text-card
+{
+    margin: 10px;
+    border: 1px solid black;
+}
+
+.image-card
+{
+    margin: 10px;
+    border: 1px solid black;
+}
 /**Home Page**/
 
 .background-container {

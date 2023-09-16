@@ -6,6 +6,9 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('news/',include("news.urls")),
+    path('auth/',include('djoser.urls')),
+    path('auth/',include('djoser.urls.authtoken')),
+    
 ]
 
 urlpatterns += static(settings.MEDIA_URL,
