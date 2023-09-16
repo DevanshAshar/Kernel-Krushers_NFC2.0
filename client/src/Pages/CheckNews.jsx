@@ -16,7 +16,7 @@ export default function CheckNews() {
   const [link, setLink] = useState("");
   const[fake,setFake]=useState(true)
   const[sentiment,setSentiment]=useState({})
-  const handlePieChartData = (sentimentData) => {
+  const handlePieChartData = async(sentimentData) => {
     // Extract labels and percentages from sentimentData
     const sentimentLabels = Object.keys(sentimentData);
     const sentimentPercentages = Object.values(sentimentData);
@@ -30,7 +30,6 @@ export default function CheckNews() {
       newsData.append("img", image);
       newsData.append("lang",selectedLanguage)
       const response = await axios.post(`${process.env.REACT_APP_API}/news/img/`,newsData)
-      console.log(response.data);
       console.log(response.data.sentiment)
       setSentiment(JSON.parse(response.data.sentiment.replace(/'/g, '"')))
       if(response.data.fake==="real")
@@ -41,6 +40,8 @@ export default function CheckNews() {
     } catch (error) {
       toast.error('Something went wrong')
       console.log(error.message)
+    } finally{
+      console.log('finally : ')
     }
     console.log(newsData);
   }
@@ -143,7 +144,7 @@ export default function CheckNews() {
         </div>
       </div>
       <div style={{ width: '400px', height: '400px' }}>
-        <PieChart labels={labels} percentages={percentages} />
+        <PieChart labels={Object.keys(sentiment)} percentages={Object.values(sentiment)} />
       </div>
       <div>
         <strong>Category:</strong> {category}

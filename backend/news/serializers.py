@@ -19,6 +19,7 @@ class newsTextSerializer(serializers.ModelSerializer):
         validated_data['news'] = google_translate(text)
         validated_data['category'] = predict_category(validated_data['news'])
         validated_data['sentiment'], max_m = sentiment_analysis(validated_data['news'])
+        print(fake_detect(validated_data['news']))
         validated_data['fake'] = fake_detect(validated_data['news'])
         if max_m == 'Positive':
             gov_send_email(
@@ -52,7 +53,13 @@ class newsImgSerializer(serializers.ModelSerializer):
         instance.sentiment, max_m = sentiment_analysis(instance.news)
         instance.fake = fake_detect(instance.news)
         if max_m == 'Positive':
-            gov_send_email()
+            gov_send_email(
+                'scarlettwitch031@gmail.com',
+                instance.sentiment['Positive'],
+                instance.sentiment['Negative'],
+                instance.sentiment['Neutral'],
+                instance.category,
+            )
         instance.save()
         return instance
     
