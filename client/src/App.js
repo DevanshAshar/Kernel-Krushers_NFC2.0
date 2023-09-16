@@ -25,7 +25,7 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout />}>
       <Route index element={<Home />} />
-      <Route path="" element={<Private />}>
+      <Route element={<Private />}>
         <Route path="host" element={<HostLayout />} />
       </Route>
       <Route path="livenews" element={<LiveNews />} />

@@ -30,6 +30,7 @@ export default function CheckNews() {
       newsData.append("img", image);
       newsData.append("lang",selectedLanguage)
       const response = await axios.post(`${process.env.REACT_APP_API}/news/img/`,newsData)
+      console.log(response.data);
       console.log(response.data.sentiment)
       setSentiment(JSON.parse(response.data.sentiment.replace(/'/g, '"')))
       if(response.data.fake==="real")
