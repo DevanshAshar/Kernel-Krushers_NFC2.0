@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import PieChart from "./PieChart";
 
 const HostLayout = () => {
   const [textData, setTextData] = useState([]);
@@ -20,32 +21,42 @@ const HostLayout = () => {
     getData();
   }, []);
   return (
-    <>
+    <div className="data-and-images-container">
+      <h3>Your News</h3>
       {textData && (
-        <div>
-          <h2>Textual News</h2>
+        <div className="text-container">
+          <h4>Textual News</h4>
           <div className="card">
-            {textData.map((textItem) => (
-              <div className="card">
+            {textData.map((textItem, index) => (
+              <div key={index} className="text-card">
                 <div className="card-body">{textItem.news}</div>
                 <p>{textItem.category}</p>
+                <p>{textItem.fake}</p>
+                <PieChart labels={Object.keys(JSON.parse(textItem.sentiment.replace(/'/g, '"')))} percentages={Object.values(JSON.parse(textItem.sentiment.replace(/'/g, '"')))} />
               </div>
             ))}
           </div>
         </div>
       )}
       {imgData && (
-        <div>
-          <h2>Image news</h2>
-          {imgData.map((imgItem) => (
-            <div className="card">
-              <img src={imgItem.img} alt={null} className="card-img-top" />
+        <div className="images-container">
+          <h4>Image news</h4>
+          {imgData.map((imgItem, index) => (
+            <div key={index} className="image-card">
+              <img
+                src={imgItem.img}
+                alt={null}
+                className="card-img-top"
+                style={{ width: "25vw", height: "auto" }}
+              />
               <p>{imgItem.category}</p>
+              <p>{imgItem.fake}</p>
+              <PieChart labels={Object.keys(JSON.parse(imgItem.sentiment.replace(/'/g, '"')))} percentages={Object.values(JSON.parse(imgItem.sentiment.replace(/'/g, '"')))} />
             </div>
           ))}
         </div>
       )}
-    </>
+    </div>
   );
 };
 

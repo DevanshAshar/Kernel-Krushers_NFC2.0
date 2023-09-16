@@ -26,14 +26,15 @@ const Private = () => {
         if(auth?.token)
         checkAuth()
     },[auth?.token])
-  if(ok)
-  {
-    return <Outlet />
-  }
-  else
-  {
-    return <Navigate to="/login?message=You must login first!" />
-  }
+  // if(ok)
+  // {
+  //   return <Outlet />
+  // }
+  // else
+  // {
+  //   return <Navigate to="/login?message=You must login first!" />
+  // }
+  return ok?<Outlet/>:<Unauthorized/>
 }
 
 export default Private
