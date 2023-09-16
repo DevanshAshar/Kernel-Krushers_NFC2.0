@@ -21,7 +21,7 @@ class newsTextSerializer(serializers.ModelSerializer):
         if len(text) >=255:
             validated_data['news'] = summaryy(text)
         else:
-            validated_data['news'] = text   
+            validated_data['news'] = text
         validated_data['category'] = predict_category(validated_data['news'])
         validated_data['sentiment'], max_m = sentiment_analysis(validated_data['news'])
         print(fake_detect(validated_data['news']))

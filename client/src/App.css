@@ -298,6 +298,8 @@ option:hover
     height: 400px; /* Set the container height as needed */
     background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://venturebeat.com/wp-content/uploads/2018/10/fake_news.shutterstock_559003162-e1582064474697.jpg?w=1200&strip=all');
     background-size: cover;
+    /* background-size: cover; */
+    background-position: center;
 }
 
 .background-container > *

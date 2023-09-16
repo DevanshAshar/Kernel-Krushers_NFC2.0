@@ -63,7 +63,7 @@ export default function CheckNews() {
       const res = await axios.post(`${process.env.REACT_APP_API}/news/text/`, { news: description });
       console.log(res.data.sentiment);
       setSentiment(JSON.parse(res.data.sentiment.replace(/'/g, '"')));
-      if (res.data.fake === "real") setFake(false);
+      if (res.data.fake === "real" || res.data.fake==="Real") setFake(false);
       setCategory(res.data.category);
       handlePieChartData(sentiment);
     } catch (error) {

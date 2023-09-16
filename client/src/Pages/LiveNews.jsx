@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Checkbox, Radio,Modal } from "antd";
+import { Checkbox, Radio, Modal } from "antd";
 import { Categories } from "../Components/Categories";
 import { Languages } from "../Components/Languages";
 import toast from "react-hot-toast";
 import axios from "axios";
+import PieChart from "../Components/PieChart";
 
 const LiveNews = () => {
   const [check, setCheck] = useState("");
   const [radio, setRadio] = useState("");
   const [news, setNews] = useState([]);
+  const [fake, setFake] = useState(true);
+  const [labels, setLabels] = useState();
+  const [percentages, setPercentages] = useState([]);
+  const [sentiment, setSentiment] = useState({});
   const [selectedCard, setSelectedCard] = useState(null);
   const getNews = async (check, radio) => {
     try {
@@ -48,7 +53,28 @@ const LiveNews = () => {
   };
   const handleCloseEnlargedView = () => {
     setSelectedCard(null);
-  }
+  };
+  const findAnalysis = async (text) => {
+    try {
+      const res = await axios.post(`${process.env.REACT_APP_API}/news/text/`, {
+        news: text,
+      });
+      console.log(res.data);
+      if (res.data.fake === "real" || res.data.fake === "Real") setFake(false);
+      setSentiment(JSON.parse(res.data.sentiment.replace(/'/g, '"')));
+      handlePieChartData(sentiment);
+    } catch (error) {
+      toast.error("Something went wrong");
+      console.log(error.message);
+    }
+  };
+  const handlePieChartData = async (sentimentData) => {
+    // Extract labels and percentages from sentimentData
+    const sentimentLabels = Object.keys(sentimentData);
+    const sentimentPercentages = Object.values(sentimentData);
+    setLabels(sentimentLabels);
+    setPercentages(sentimentPercentages);
+  };
   useEffect(() => {
     getNews(check, radio);
   }, [check, radio]);
@@ -92,7 +118,13 @@ const LiveNews = () => {
             <div className="flex-wrap" style={{ display: "flex" }}>
               {news && news.length > 0 ? (
                 news?.map((n) => (
-                  <Link key={n.article_id} onClick={() => handleCardClick(n)}>
+                  <Link
+                    key={n.article_id}
+                    onClick={() => {
+                      findAnalysis(n.description);
+                      handleCardClick(n);
+                    }}
+                  >
                     <div
                       className="card m-2"
                       style={{ width: "18rem", border: "0.5px solid orange" }}
@@ -140,9 +172,32 @@ const LiveNews = () => {
                 ? selectedCard.description
                 : "Description not available"}
             </p>
-            <p>
-                {selectedCard.content}
-            </p>
+            <p>{selectedCard.content}</p>
+            {!fake ? <h6>Authenticity: Valid</h6> : <h6>Authenticity: Fake</h6>}
+            {sentiment ? (
+              <PieChart
+                labels={Object.keys(sentiment)}
+                percentages={Object.values(sentiment)}
+              />
+            ) : (
+              <div
+                className="spinner-grow"
+                style={{
+                  width: "3rm",
+                  height: "3rm",
+                  textAlign: "center",
+                  justifyContent: "center",
+                }}
+                role="status"
+              >
+                <span
+                  className="visually-hidden"
+                  style={{ textAlign: "center" }}
+                >
+                  Loading...
+                </span>
+              </div>
+            )}
           </>
         )}
       </Modal>
